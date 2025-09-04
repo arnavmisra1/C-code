@@ -1,44 +1,52 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h> //random number generator
 
-int main(void) {
-
-    float value1, value2;
-    char operator;
+int main() {
     
-    printf(" Please enter the expression for calculation in format: number1 (an operator) number2\n");
-    scanf("%f %c %f", &value1, &operator, &value2);
+    int randomnumber = 0;
+    int guess = 0;
+    int tries;
+    time_t t;
     
-    switch(operator) //switch is same as multiple if else but simplifies the situation.
+    //initializing the random number
+    srand((unsigned) time(&t));
+    
+    //getting random number
+    randomnumber = rand() % 21;
+    char str[100];
+    
+    printf("Hello and welcome. Please tell me your name: \n");
+    
+    scanf("%s", str);
+    
+    printf("\nHello %s. This is a guessing game\n", str);
+    
+    printf("\nI have chosen a number betweeen 0 and 20, which you must guess\n");
+    
+    for(tries = 5; tries > 0; --tries) //creating a loop. First initializing tries, then creating a condition and then the action per iteration on it.
     {
-    
-        case '+':// make cases according to situation with proper syntax.
-        printf("The value is: %.2f\n", value1 + value2);
-        break;// make sure to use break so code doesnt read next code line in this case.
+        printf("\nYou have %d tr%s left.\n", tries, tries == 1 ? "y" : "ies");
+        printf("\nEnter your guess: \n");
+        scanf("%d", &guess);
         
-        case '-':
-        printf("The value is: %.2f\n", value1-value2);
-        break;
-        
-        case '*':
-        printf("The value is: %.2f\n", value1*value2);
-        break;
-        
-        case '/':
-    
-        if ( value2==0 )
-            printf("Error: Division by zero not allowed\n");
-        else
-            printf("The value is: %.2f\n", value1/value2);
-        break;    
+        if (guess == randomnumber)
+        {
+            printf("\nCongratulations! You guessed the number.\n");
+            return; //makes sure the defualt printf doesnt display after you won.
+        }
+            else if (guess < 0 || guess > 20)
+                printf("\nI said the number is between 0 and 20.\n");
+            else if (guess < randomnumber)
+                printf("\nSorry %d is wrong. My number is greater than that.\n", guess);
+            else if (guess > randomnumber)
+                printf("\nSorry %d is wrong. My number is less than that.\n", guess);
             
-        default://default is basically the overall else. The case the program would do if none of the cases satisfy.
-        printf("Unknown Operator\n");
-        break;
+        }
+            
+        printf ("\nSorry you could not guess the number. The number was %d. Game over\n", randomnumber); //default case outside the loops.
         
         
-}
-    
-    
-    return 0;
-
-}
+       return 0; 
+        
+    }
